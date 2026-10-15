@@ -1,0 +1,1317 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>澳門心理學會2026學術年會 - RE:WIRE (Bento UI)</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Inter, Noto Sans TC & Noto Sans SC (確保繁簡切換時字體粗細與造型一致) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;700;900&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            poster: {
+              indigo: '#3E3B72',      // 海報主標題深紫藍
+              indigoDark: '#2C2955',  // 較深紫藍
+              pink: '#E8619A',        // 海報亮粉色
+              pinkLight: '#FDEBF3',   // 粉色淺底
+              cyan: '#2CBAB8',        // 海報亮青/綠
+              cyanLight: '#E6F8F7',   // 青色淺底
+              yellow: '#F5A623',      // 海報金黃色
+              yellowLight: '#FEF6E9', // 金黃淺底
+              purple: '#795290',      // 海報次級紫
+              bg: '#FAF9F6',          // 海報清爽米白底
+              cardBg: '#FFFFFF',      // 乾淨白卡片
+              border: '#E8E5DF',      // 柔和淺邊框
+              textDark: '#2A2946',    // 文字深色
+              textMuted: '#6B6888'    // 次要說明文字
+            }
+          },
+          fontFamily: {
+            sans: ['"Noto Sans TC"', '"Noto Sans SC"', 'Inter', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* 全域防滑動跳躍與海報底色 */
+    body {
+      background-color: #FAF9F6;
+      color: #2A2946;
+      font-family: 'Noto Sans TC', 'Noto Sans SC', Inter, sans-serif;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+
+    /* 繁簡語言特定字體適配：徹底解決簡體字元出現字型粗細不均或落差問題 */
+    html[lang="zh-Hans"], html[lang="zh-Hans"] body {
+      font-family: 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    }
+    html[lang="zh-Hant"], html[lang="zh-Hant"] body {
+      font-family: 'Noto Sans TC', 'PingFang TC', 'Microsoft JhengHei', sans-serif;
+    }
+
+    /* 海報風格背景紋理：彩色神經元引線、節點與斜線排線底紋 */
+    .poster-bg {
+      background-color: #FAF9F6;
+      background-image: 
+        radial-gradient(circle at 10% 12%, rgba(232, 97, 154, 0.08) 0%, transparent 28%),
+        radial-gradient(circle at 88% 25%, rgba(44, 186, 184, 0.1) 0%, transparent 35%),
+        radial-gradient(circle at 75% 75%, rgba(245, 166, 35, 0.08) 0%, transparent 30%),
+        repeating-linear-gradient(45deg, rgba(44, 186, 184, 0.035) 0, rgba(44, 186, 184, 0.035) 1.5px, transparent 1.5px, transparent 12px),
+        repeating-linear-gradient(-45deg, rgba(232, 97, 154, 0.03) 0, rgba(232, 97, 154, 0.03) 1.5px, transparent 1.5px, transparent 12px);
+    }
+
+    /* 科技電路發光端點動畫 (PCB Circuit Glow Animation) */
+    @keyframes circuitGlow {
+      0%, 100% { opacity: 0.45; filter: drop-shadow(0 0 2px rgba(44, 186, 184, 0.4)); }
+      50% { opacity: 1; filter: drop-shadow(0 0 6px rgba(44, 186, 184, 0.95)) drop-shadow(0 0 10px rgba(232, 97, 154, 0.6)); }
+    }
+    @keyframes circuitPulseCyan {
+      0%, 100% { transform: scale(1); opacity: 0.6; }
+      50% { transform: scale(1.4); opacity: 1; filter: drop-shadow(0 0 4px #2CBAB8); }
+    }
+    @keyframes circuitPulsePink {
+      0%, 100% { transform: scale(1); opacity: 0.5; }
+      50% { transform: scale(1.35); opacity: 1; filter: drop-shadow(0 0 4px #E8619A); }
+    }
+
+    .node-pulse-cyan {
+      transform-origin: center;
+      animation: circuitPulseCyan 2.8s infinite ease-in-out;
+    }
+    .node-pulse-pink {
+      transform-origin: center;
+      animation: circuitPulsePink 3.2s infinite ease-in-out 0.8s;
+    }
+    .circuit-ambient {
+      animation: circuitGlow 4s infinite ease-in-out;
+    }
+
+    /* 頁面載入與分頁/彈窗滑入動畫 (Page & Modal Entrance Animations) */
+    @keyframes pageFadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(14px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes sheetSlideUp {
+      from {
+        transform: translateY(100%);
+        opacity: 0.6;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    @keyframes modalPopScale {
+      from {
+        transform: scale(0.92) translateY(12px);
+        opacity: 0;
+      }
+      to {
+        transform: scale(1) translateY(0);
+        opacity: 1;
+      }
+    }
+
+    @keyframes tabFadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(6px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* 階梯式進入主頁動畫類別 */
+    .hero-enter {
+      animation: pageFadeUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+    .stagger-1 {
+      animation: pageFadeUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.08s both;
+    }
+    .stagger-2 {
+      animation: pageFadeUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.15s both;
+    }
+    .stagger-3 {
+      animation: pageFadeUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.22s both;
+    }
+    .stagger-4 {
+      animation: pageFadeUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.28s both;
+    }
+    .stagger-5 {
+      animation: pageFadeUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.34s both;
+    }
+
+    /* 抽屜與彈窗專用動畫類別 */
+    .anim-sheet-slide {
+      animation: sheetSlideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+    .anim-modal-scale {
+      animation: modalPopScale 0.28s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+    .tab-content-enter {
+      animation: tabFadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+
+    /* Bento 卡片海報微立體感 */
+    .bento-card {
+      background: rgba(255, 255, 255, 0.95);
+      border: 1.5px solid rgba(232, 229, 223, 0.9);
+      box-shadow: 0 4px 18px -2px rgba(62, 59, 114, 0.06), 0 2px 6px -1px rgba(0, 0, 0, 0.02);
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .bento-card:active {
+      transform: scale(0.978);
+      border-color: #3E3B72;
+    }
+
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+
+    /* 海報風格彩點動畫 */
+    @keyframes pulsePin {
+      0%, 100% { transform: scale(1); opacity: 0.95; }
+      50% { transform: scale(1.35); opacity: 0.5; }
+    }
+    .live-pulse {
+      animation: pulsePin 2.2s infinite ease-in-out;
+    }
+  </style>
+</head>
+<body class="poster-bg min-h-screen pb-8 antialiased flex flex-col justify-between">
+
+  <!-- 頂部精簡手機 Header (海報配色深紫藍) -->
+  <header class="sticky top-0 z-30 bg-[#FAF9F6]/95 backdrop-blur-md border-b border-poster-border px-4 py-2.5 flex items-center justify-between">
+    <div class="flex items-center space-x-2.5">
+      <!-- 澳門心理學會官方標誌 (APM Logo) -->
+      <div class="w-8 h-8 rounded-xl bg-white flex items-center justify-center p-0.5 shadow-sm border border-poster-border overflow-hidden">
+        <img src="https://apm.org.mo/uploads/ueditor/image/20200608/1591609364423454.png" alt="APM 澳門心理學會標誌" class="w-full h-full object-contain" onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'w-full h-full bg-gradient-to-br from-poster-indigo to-poster-indigoDark text-white flex items-center justify-center font-bold text-xs\'>APM</div>';">
+      </div>
+      <div>
+        <div class="flex items-center gap-1.5">
+          <span class="text-[10px] font-extrabold tracking-wider text-poster-pink uppercase">APM 2026 年會</span>
+          <span class="inline-block w-1.5 h-1.5 rounded-full bg-poster-cyan live-pulse"></span>
+        </div>
+        <p class="text-xs font-black text-poster-indigo leading-none">澳門心理學會</p>
+      </div>
+    </div>
+    
+    <div class="flex items-center space-x-2">
+      <!-- 繁簡切換按鈕 (簡 / 繁) - 加大按鈕尺寸與字體 -->
+      <button id="lang-toggle-btn" onclick="toggleLanguage()" class="px-3.5 py-1.5 rounded-full text-xs font-black bg-white border border-poster-indigo/30 text-poster-indigo shadow-sm flex items-center gap-1.5 active:scale-95 transition hover:border-poster-indigo">
+        <i class="fa-solid fa-language text-sm text-poster-cyan"></i>
+        <span id="lang-label" class="tracking-wide">简体</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- 全站背景 45度高科技電路裝飾 (Ambient PCB Circuit Traces) -->
+  <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden opacity-35">
+    <svg class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+      <!-- 頂部左側電路線軌跡 -->
+      <g stroke="#3E3B72" stroke-width="1" fill="none" opacity="0.35">
+        <path d="M -20 80 H 60 L 95 115 H 180 L 210 145 H 260" stroke-dasharray="4 2" />
+        <path d="M -10 95 H 45 L 80 130 H 150 L 175 155 H 220" />
+        <path d="M 0 110 H 30 L 65 145 H 120" />
+      </g>
+      <!-- 頂部發光電路端點節點 -->
+      <circle cx="260" cy="145" r="3.5" fill="#2CBAB8" class="node-pulse-cyan" />
+      <circle cx="220" cy="155" r="3" fill="#E8619A" class="node-pulse-pink" />
+      <circle cx="120" cy="145" r="2.5" fill="#795290" />
+      
+      <!-- 右側中央平行電路軌跡 (PCB Parallel Bus) -->
+      <g stroke="#2CBAB8" stroke-width="1.2" fill="none" opacity="0.38">
+        <path d="M 420 280 H 340 L 300 320 H 250 L 220 350 H 180" />
+        <path d="M 440 295 H 355 L 315 335 H 265 L 235 365 H 200" stroke-dasharray="6 3" />
+        <path d="M 430 310 H 370 L 330 350 H 280" />
+      </g>
+      <circle cx="180" cy="350" r="3.5" fill="#2CBAB8" class="node-pulse-cyan" />
+      <circle cx="200" cy="365" r="3" fill="#F5A623" />
+      <circle cx="280" cy="350" r="2.5" fill="#E8619A" class="node-pulse-pink" />
+
+      <!-- 底部左側 45度角電路束 -->
+      <g stroke="#795290" stroke-width="1" fill="none" opacity="0.3">
+        <path d="M -10 650 H 50 L 90 610 H 170 L 210 570 H 270" />
+        <path d="M -20 670 H 35 L 75 630 H 145 L 185 590 H 230" />
+      </g>
+      <circle cx="270" cy="570" r="3.5" fill="#E8619A" class="node-pulse-pink" />
+      <circle cx="230" cy="590" r="3" fill="#2CBAB8" class="node-pulse-cyan" />
+    </svg>
+  </div>
+
+  <!-- 主便當盒網格容器 (Bento UI Dashboard) -->
+  <main class="w-full max-w-md mx-auto px-3 pt-1.5 pb-2 space-y-2.5 flex-1 relative z-10">
+    
+    <!-- BENTO 01: 海報主視覺卡片 (精簡緊湊型，融入 45° 電路軌跡紋理) -->
+    <section class="bento-card hero-enter rounded-2xl p-3 relative overflow-hidden bg-white border-poster-indigo/20 shadow-sm">
+      
+      <!-- 內嵌電路母板軌跡紋理 (Circuit PCB Board Traces) -->
+      <div class="absolute right-0 top-0 w-36 h-36 pointer-events-none opacity-40">
+        <svg viewBox="0 0 140 140" fill="none" class="w-full h-full circuit-ambient">
+          <!-- 45度平行電路導線 -->
+          <path d="M 140 20 H 95 L 70 45 H 35 L 20 60 H 0" stroke="#2CBAB8" stroke-width="1.2" stroke-dasharray="4 2"/>
+          <path d="M 140 32 H 100 L 75 57 H 45 L 30 72 H 5" stroke="#3E3B72" stroke-width="1"/>
+          <path d="M 140 44 H 105 L 85 64 H 60 L 45 79 H 15" stroke="#E8619A" stroke-width="1.2"/>
+          <path d="M 120 0 L 95 25 V 50 L 80 65 H 50" stroke="#F5A623" stroke-width="0.9"/>
+          
+          <!-- 電路終端發光點 (Circuit Pads / Nodes) -->
+          <circle cx="35" cy="45" r="2.5" fill="#2CBAB8" />
+          <circle cx="20" cy="60" r="3" fill="#2CBAB8" class="node-pulse-cyan" />
+          <circle cx="30" cy="72" r="2.5" fill="#3E3B72" />
+          <circle cx="45" cy="79" r="3" fill="#E8619A" class="node-pulse-pink" />
+          <circle cx="80" cy="65" r="2.5" fill="#F5A623" />
+        </svg>
+      </div>
+
+      <div class="relative z-10 space-y-1.5">
+        <!-- 頂部大會題名 -->
+        <p class="text-[11px] font-extrabold tracking-tight text-poster-indigo/90 leading-tight">
+          澳門心理學會2026年學術年會暨第十四屆理監事就職禮
+        </p>
+
+        <!-- 繽紛海報色彩但字型端正清晰的 RE:WIRE 標題 -->
+        <div class="flex items-center gap-2 pt-0.5">
+          <div class="inline-flex items-center font-black text-2xl tracking-wider select-none leading-none font-sans drop-shadow-xs">
+            <span class="text-[#E8619A]">R</span>
+            <span class="text-[#F5A623]">E</span>
+            <!-- 海報標誌性雙色彩點冒號 (黃點 + 青點) -->
+            <span class="inline-flex flex-col items-center justify-center gap-1 mx-1.5 py-0.5">
+              <span class="w-1.5 h-1.5 rounded-full bg-[#F5A623] shadow-xs"></span>
+              <span class="w-1.5 h-1.5 rounded-full bg-[#2CBAB8] shadow-xs"></span>
+            </span>
+            <span class="text-[#3E3B72]">W</span>
+            <span class="text-[#795290]">I</span>
+            <span class="text-[#2CBAB8]">R</span>
+            <span class="text-[#E8619A]">E</span>
+          </div>
+          <span class="h-4 w-px bg-poster-border"></span>
+          <span class="text-[10px] font-black px-1.5 py-0.5 rounded-md bg-poster-pinkLight text-poster-pink border border-poster-pink/30 tracking-wider">AI ERA</span>
+        </div>
+
+        <!-- 主題中文標題 -->
+        <h1 class="text-base font-black tracking-tight text-poster-indigo leading-tight">
+          AI時代的職場心理健康解方
+        </h1>
+
+        <!-- 整合式時間與地點條 (橫向精簡並列，大幅節省縱向空間) -->
+        <div class="pt-1 flex items-center justify-between gap-1.5 text-[11px] font-bold">
+          <!-- 時間條 (粉色柔底) -->
+          <div class="bg-pink-50 border border-pink-200/80 rounded-lg px-2 py-1 flex items-center gap-1.5 text-poster-indigo shrink-0">
+            <i class="fa-regular fa-calendar-days text-poster-pink text-[11px]"></i>
+            <span class="font-black">10.24 (六)</span>
+            <span class="text-slate-400 font-normal">|</span>
+            <span class="text-slate-700">14:00-17:00</span>
+          </div>
+
+          <!-- 地點條 (薄荷綠柔底) -->
+          <div class="bg-emerald-50 border border-emerald-200/80 rounded-lg px-2 py-1 flex items-center gap-1 text-slate-800 truncate flex-1 min-w-0">
+            <i class="fa-solid fa-location-dot text-emerald-600 text-[11px] shrink-0"></i>
+            <span class="truncate">利澳酒店 喜粵8號</span>
+          </div>
+        </div>
+
+        <!-- 單位微型標籤 (主辦單位與支持單位並列) -->
+        <div class="pt-1 flex items-center justify-between text-[10px] text-poster-textMuted font-bold border-t border-slate-100">
+          <div class="flex items-center gap-2">
+            <span>主辦：澳門心理學會</span>
+            <span class="text-slate-300 font-normal">|</span>
+            <span>支持單位：澳門基金會</span>
+          </div>
+          <span class="text-poster-pink font-black text-[10px] flex items-center gap-0.5">
+            年會資訊 <i class="fa-solid fa-sparkles text-[8px]"></i>
+          </span>
+        </div>
+      </div>
+    </section>
+
+    <!-- BENTO GRID 核心區塊 (2 欄流動便當盒) -->
+    <div class="grid grid-cols-2 gap-2">
+
+      <!-- BENTO 02: 3位特邀講者 (加大加重全寬核心卡片，內置平行電路軌跡) -->
+      <div class="bento-card stagger-1 col-span-2 rounded-2xl p-3.5 relative overflow-hidden group border-poster-pink/40 bg-gradient-to-br from-white via-pink-50/20 to-poster-pinkLight/40 shadow-sm">
+        
+        <!-- 背景電路微水印裝飾 -->
+        <div class="absolute -right-4 -bottom-4 w-40 h-28 pointer-events-none opacity-25">
+          <svg viewBox="0 0 160 110" fill="none" class="w-full h-full">
+            <path d="M 0 30 H 45 L 75 60 H 120 L 140 80 H 160" stroke="#E8619A" stroke-width="1.2"/>
+            <path d="M 10 45 H 50 L 80 75 H 130 L 145 90 H 160" stroke="#2CBAB8" stroke-width="1" stroke-dasharray="3 2"/>
+            <circle cx="45" cy="30" r="2.5" fill="#E8619A"/>
+            <circle cx="120" cy="60" r="3.5" fill="#2CBAB8" class="node-pulse-cyan"/>
+            <circle cx="130" cy="75" r="2.5" fill="#E8619A"/>
+          </svg>
+        </div>
+
+        <div class="flex items-center justify-between mb-2 relative z-10">
+          <div class="flex items-center space-x-2">
+            <div class="w-8 h-8 rounded-xl bg-poster-pink text-white flex items-center justify-center text-sm shadow-sm shrink-0">
+              <i class="fa-solid fa-users-viewfinder"></i>
+            </div>
+            <div>
+              <div class="flex items-center gap-1.5">
+                <h2 class="text-sm font-black text-poster-indigo">3 位特邀主講嘉賓</h2>
+                <span class="bg-poster-pink text-white text-[8px] font-black px-1.5 py-0.5 rounded-full uppercase tracking-wider">個別點擊</span>
+              </div>
+              <p class="text-[10px] text-poster-textMuted">點擊下方講者卡片 • 查閱個別演講簡介</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3 講者個別獨立點選卡片 (各自觸發專屬個人抽屜) -->
+        <div class="grid grid-cols-3 gap-1.5 pt-1 relative z-10">
+          <div onclick="openSheet('sheet-speaker-luo')" class="bg-white/95 p-2 rounded-xl border border-poster-border/80 hover:border-poster-indigo/40 active:scale-95 transition cursor-pointer flex flex-col items-center text-center shadow-xs group/card justify-between">
+            <div class="w-12 h-12 rounded-full overflow-hidden bg-slate-100 border-2 border-poster-indigo/30 mb-1.5 group-hover/card:ring-2 ring-poster-indigo/30 transition shadow-xs shrink-0">
+              <img src="https://staff.bnbu.edu.cn/attachment/images/2026/09/24/image_1790236965_E00D0kde.jpeg" alt="羅躍嘉 教授" class="w-full h-full object-cover object-top" onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'w-full h-full bg-gradient-to-br from-poster-indigo to-poster-indigoDark text-white flex items-center justify-center font-black text-xs\'>羅</div>';">
+            </div>
+            <p class="font-black text-poster-indigo text-[11px] leading-tight w-full">羅躍嘉 教授</p>
+          </div>
+
+          <div onclick="openSheet('sheet-speaker-gu')" class="bg-white/95 p-2 rounded-xl border border-poster-border/80 hover:border-poster-cyan/60 active:scale-95 transition cursor-pointer flex flex-col items-center text-center shadow-xs group/card justify-between">
+            <div class="w-12 h-12 rounded-full overflow-hidden bg-slate-100 border-2 border-poster-cyan/40 mb-1.5 group-hover/card:ring-2 ring-poster-cyan/30 transition shadow-xs shrink-0">
+              <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ2e5lWWvK605nv_rO74puOkxGy6l7WZmZUMF2sAdqeb23W8khn" alt="古健榮 博士" class="w-full h-full object-cover object-top" onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'w-full h-full bg-gradient-to-br from-poster-cyan to-teal-700 text-white flex items-center justify-center font-black text-xs\'>古</div>';">
+            </div>
+            <p class="font-black text-poster-indigo text-[11px] leading-tight w-full">古健榮 博士</p>
+          </div>
+
+          <div onclick="openSheet('sheet-speaker-huang')" class="bg-white/95 p-2 rounded-xl border border-poster-border/80 hover:border-poster-yellow/60 active:scale-95 transition cursor-pointer flex flex-col items-center text-center shadow-xs group/card justify-between">
+            <div class="w-12 h-12 rounded-full overflow-hidden bg-slate-100 border-2 border-poster-yellow/50 mb-1.5 group-hover/card:ring-2 ring-poster-yellow/30 transition shadow-xs shrink-0">
+              <img src="https://www.rock-training.com/wp-content/uploads/2019/01/f70483b9-bf00-4d95-9af6-b54a00130c39.jpg" alt="黃仲遠 先生" class="w-full h-full object-cover object-top" onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'w-full h-full bg-gradient-to-br from-poster-yellow to-amber-700 text-white flex items-center justify-center font-black text-xs\'>黃</div>';">
+            </div>
+            <p class="font-black text-poster-indigo text-[11px] leading-tight w-full">黃仲遠 先生</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- BENTO 03: 大會流程日程 (單欄精緻卡片，加入微型電路拐角) -->
+      <div onclick="openSheet('sheet-agenda')" class="bento-card stagger-2 rounded-2xl p-3 cursor-pointer flex flex-col justify-between group border-poster-cyan/40 bg-gradient-to-b from-white to-poster-cyanLight/25 relative overflow-hidden">
+        <!-- 電路角標水紋 -->
+        <div class="absolute right-0 top-0 w-20 h-16 pointer-events-none opacity-20">
+          <svg viewBox="0 0 80 60" fill="none" class="w-full h-full">
+            <path d="M 80 15 H 45 L 25 35 H 0" stroke="#2CBAB8" stroke-width="1.2"/>
+            <circle cx="45" cy="15" r="2.5" fill="#2CBAB8"/>
+            <circle cx="25" cy="35" r="3" fill="#2CBAB8" class="node-pulse-cyan"/>
+          </svg>
+        </div>
+
+        <div>
+          <div class="flex items-center justify-between mb-1.5 relative z-10">
+            <div class="w-8 h-8 rounded-xl bg-poster-cyan/15 border border-poster-cyan/30 text-poster-cyan flex items-center justify-center text-sm">
+              <i class="fa-solid fa-clock-rotate-left"></i>
+            </div>
+            <span class="text-[9px] font-black bg-poster-cyanLight text-poster-cyan px-1.5 py-0.5 rounded border border-poster-cyan/30">14:00-17:00</span>
+          </div>
+          <h2 class="text-xs font-black text-poster-indigo leading-tight relative z-10">大會流程日程</h2>
+          <p class="text-[10px] text-poster-textMuted mt-0.5 relative z-10">典禮及三場專題演講</p>
+        </div>
+
+        <div class="mt-2.5 pt-1.5 border-t border-poster-border/70 flex items-center justify-between text-[10px] font-bold text-poster-cyan relative z-10">
+          <span>時序表</span>
+          <i class="fa-solid fa-arrow-right text-[9px] group-hover:translate-x-0.5 transition-transform"></i>
+        </div>
+      </div>
+
+      <!-- BENTO 04: 第十四屆理監事就職名單 (單欄精緻卡片) -->
+      <div onclick="openSheet('sheet-council')" class="bento-card stagger-3 rounded-2xl p-3 cursor-pointer flex flex-col justify-between group border-purple-200 bg-gradient-to-b from-white to-purple-50/30 relative overflow-hidden">
+        <!-- 電路角標水紋 -->
+        <div class="absolute right-0 top-0 w-20 h-16 pointer-events-none opacity-20">
+          <svg viewBox="0 0 80 60" fill="none" class="w-full h-full">
+            <path d="M 80 20 H 50 L 30 40 H 0" stroke="#795290" stroke-width="1.2"/>
+            <circle cx="50" cy="20" r="2.5" fill="#795290"/>
+            <circle cx="30" cy="40" r="3" fill="#E8619A" class="node-pulse-pink"/>
+          </svg>
+        </div>
+
+        <div>
+          <div class="flex items-center justify-between mb-1.5 relative z-10">
+            <div class="w-8 h-8 rounded-xl bg-purple-100 border border-purple-200 text-poster-indigo flex items-center justify-center text-sm">
+              <i class="fa-solid fa-award"></i>
+            </div>
+            <span class="text-[9px] font-black bg-purple-50 text-poster-indigo px-1.5 py-0.5 rounded border border-purple-200">第十四屆</span>
+          </div>
+          <h2 class="text-xs font-black text-poster-indigo leading-tight relative z-10">理監事名單</h2>
+          <p class="text-[10px] text-poster-textMuted mt-0.5 relative z-10">2026-2028 領導層</p>
+        </div>
+
+        <div class="mt-2.5 pt-1.5 border-t border-poster-border/70 flex items-center justify-between text-[10px] font-bold text-poster-indigo relative z-10">
+          <span>組織架構</span>
+          <i class="fa-solid fa-arrow-right text-[9px] group-hover:translate-x-0.5 transition-transform"></i>
+        </div>
+      </div>
+
+      <!-- BENTO 05: 年會提問 (直連 Google Form 外部問卷) -->
+      <a href="https://forms.gle/GM7qXFmp47FC1R8g7" target="_blank" rel="noopener noreferrer" class="bento-card stagger-4 col-span-2 rounded-2xl p-3 flex items-center justify-between group border-emerald-300 bg-gradient-to-r from-emerald-50/60 via-white to-teal-50/40 shadow-xs relative overflow-hidden block">
+        
+        <!-- 背景電路線水紋 -->
+        <div class="absolute right-12 top-0 w-28 h-full pointer-events-none opacity-20">
+          <svg viewBox="0 0 100 50" fill="none" class="w-full h-full">
+            <path d="M 0 35 H 35 L 55 15 H 100" stroke="#059669" stroke-width="1.2"/>
+            <circle cx="35" cy="35" r="2.5" fill="#059669"/>
+            <circle cx="55" cy="15" r="3" fill="#2CBAB8" class="node-pulse-cyan"/>
+          </svg>
+        </div>
+
+        <div class="flex items-center space-x-2.5 relative z-10">
+          <div class="w-8 h-8 rounded-xl bg-emerald-600 text-white flex items-center justify-center text-sm shadow-sm shrink-0">
+            <i class="fa-regular fa-comments"></i>
+          </div>
+          <div>
+            <div class="flex items-center gap-1.5">
+              <h2 class="text-xs font-black text-emerald-950">年會現場提問</h2>
+              <span class="bg-emerald-100 text-emerald-800 text-[8px] font-extrabold px-1.5 py-0.5 rounded flex items-center gap-1">
+                <span>Google 表單</span>
+                <i class="fa-solid fa-arrow-up-right-from-square text-[7px]"></i>
+              </span>
+            </div>
+            <p class="text-[10px] text-slate-500 mt-0.5">點擊前往線上表單提交問題</p>
+          </div>
+        </div>
+        <div class="w-6 h-6 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center group-hover:translate-x-0.5 transition-transform shrink-0 relative z-10">
+          <i class="fa-solid fa-arrow-up-right-from-square text-[9px]"></i>
+        </div>
+      </a>
+
+      <!-- BENTO 06: 年會回饋 (微型精簡格子 - 直連 Google Form 外部問卷) -->
+      <a href="https://forms.gle/XHe15qwG4Y9J2UCk9" target="_blank" rel="noopener noreferrer" class="bento-card stagger-5 rounded-xl p-2.5 flex items-center justify-between group border-amber-200 bg-amber-50/40 block">
+        <div class="flex items-center space-x-2">
+          <div class="w-7 h-7 rounded-lg bg-poster-yellow text-white flex items-center justify-center text-xs shadow-xs shrink-0">
+            <i class="fa-solid fa-star"></i>
+          </div>
+          <div>
+            <h3 class="text-xs font-black text-poster-indigo">年會回饋</h3>
+            <p class="text-[9px] text-slate-500">線上滿意度問卷</p>
+          </div>
+        </div>
+        <i class="fa-solid fa-arrow-up-right-from-square text-[9px] text-amber-700 mr-1"></i>
+      </a>
+
+      <!-- BENTO 07: 加入學會 (微型精簡格子) -->
+      <div onclick="openSheet('sheet-join')" class="bento-card stagger-5 rounded-xl p-2.5 cursor-pointer flex items-center justify-between group border-poster-indigo/40 bg-gradient-to-r from-poster-indigo to-poster-indigoDark text-white">
+        <div class="flex items-center space-x-2">
+          <div class="w-7 h-7 rounded-lg bg-white/20 text-white flex items-center justify-center text-xs shrink-0">
+            <i class="fa-solid fa-user-plus"></i>
+          </div>
+          <div>
+            <h3 class="text-xs font-black text-white">入會程序與資格</h3>
+            <p class="text-[9px] text-purple-200">了解申請須知</p>
+          </div>
+        </div>
+        <i class="fa-solid fa-chevron-right text-[9px] text-white/80 mr-1"></i>
+      </div>
+
+    </div>
+
+    <!-- 底部版權與主辦標註 (僅標註澳門心理學會) -->
+    <footer class="pt-3 pb-1 text-center text-poster-textMuted text-[10px] space-y-0.5">
+      <div class="flex items-center justify-center font-bold text-xs text-poster-indigo">
+        <span>澳門心理學會 (APM)</span>
+      </div>
+      <p class="text-[8px] text-slate-400">Associação de Psicólogos de Macau</p>
+      <p class="text-[9px] text-slate-400">© 2026 RE:WIRE Annual Conference. All rights reserved.</p>
+    </footer>
+
+  </main>
+
+  <!-- ========================================== -->
+  <!-- 抽屜式彈窗 (DRAWER / BOTTOM SHEET OVERLAYS) -->
+  <!-- ========================================== -->
+
+  <!-- 抽屜 1: 大會流程 (Agenda Sheet - 依據海報 14:00-17:00 排程，位置往上移) -->
+  <div id="sheet-agenda" class="sheet-modal fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center p-3 sm:p-4 transition-all">
+    <div class="bg-[#FAF9F6] w-full max-w-md rounded-3xl max-h-[86vh] flex flex-col shadow-2xl border border-poster-border overflow-hidden my-auto -translate-y-2 sm:-translate-y-3 anim-modal-scale">
+      <div class="px-5 pt-3.5 pb-3 bg-white/95 border-b border-poster-border flex items-center justify-between sticky top-0 z-10">
+        <div>
+          <span class="text-[10px] font-black uppercase tracking-wider text-poster-cyan">Schedule • 14:00 - 17:00</span>
+          <h3 class="text-base font-black text-poster-indigo flex items-center gap-1.5">
+            <i class="fa-solid fa-timeline text-poster-pink"></i> 大會流程日程表
+          </h3>
+        </div>
+        <button onclick="closeSheet('sheet-agenda')" class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-600 hover:bg-slate-200 active:scale-95 transition" aria-label="關閉">
+          <i class="fa-solid fa-xmark text-sm"></i>
+        </button>
+      </div>
+
+      <div class="p-5 overflow-y-auto space-y-3.5 no-scrollbar flex-1 pb-6">
+        
+        <!-- 議程 1: 報到 -->
+        <div class="bg-white rounded-2xl p-3.5 border border-poster-border shadow-sm">
+          <div class="flex items-center justify-between text-xs mb-1">
+            <span class="font-black text-poster-indigo">13:30 - 14:00</span>
+            <span class="bg-slate-100 text-slate-700 px-2 py-0.5 rounded-full text-[10px] font-bold">現場簽到</span>
+          </div>
+          <h4 class="font-bold text-sm text-poster-indigo">嘉賓報到與年會資料領取</h4>
+          <p class="text-xs text-poster-textMuted mt-1">利澳酒店喜粵8號宴會廳迎賓與同行交流</p>
+        </div>
+
+        <!-- 議程 2: 就職禮 (更新為 14:00 - 14:45，已移除「莊嚴典禮」標籤) -->
+        <div class="bg-white rounded-2xl p-3.5 border-l-4 border-l-poster-pink border-poster-border shadow-sm bg-gradient-to-r from-pink-50/40 to-white">
+          <div class="flex items-center justify-between text-xs mb-1">
+            <span class="font-black text-poster-pink">14:00 - 14:45</span>
+          </div>
+          <h4 class="font-black text-sm text-poster-indigo">年會開幕 暨 第十四屆理監事就職禮</h4>
+          <p class="text-xs text-poster-textMuted mt-1">主禮嘉賓致辭、全體理監事宣誓儀式、頒授證書及大會全體合影</p>
+        </div>
+
+        <!-- 議程 3: 休息與茶歇交流 (新增 14:45 - 15:00) -->
+        <div class="bg-poster-yellowLight rounded-2xl p-3.5 border border-poster-yellow/40 flex items-center justify-between text-xs">
+          <div class="space-y-0.5">
+            <div class="flex items-center space-x-2">
+              <i class="fa-solid fa-mug-saucer text-poster-yellow"></i>
+              <span class="font-black text-poster-indigo text-sm">14:45 - 15:00 休息 & 茶歇交流</span>
+            </div>
+            <p class="text-[10px] text-amber-900/80 pl-6">約15分鐘 • 同行交流（時間可能視現場彈性微調）</p>
+          </div>
+          <span class="text-[10px] text-amber-800 font-black bg-white px-2 py-0.5 rounded-full border border-amber-200">15 分鐘</span>
+        </div>
+
+        <!-- 議程 4: 演講一 (更新為 15:00 - 15:30) -->
+        <div class="bg-white rounded-2xl p-3.5 border-l-4 border-l-poster-indigo border-poster-border shadow-sm">
+          <div class="flex items-center justify-between text-xs mb-1">
+            <span class="font-black text-poster-indigo">15:00 - 15:30</span>
+            <span class="bg-purple-100 text-poster-indigo px-2 py-0.5 rounded-full text-[10px] font-black">專題演講 01</span>
+          </div>
+          <h4 class="font-black text-sm text-poster-indigo">AI時代下中國心理學科的發展與人才培養</h4>
+          <p class="text-xs text-slate-700 mt-1">主講：羅躍嘉 教授（中國心理學會 理事長）</p>
+        </div>
+
+        <!-- 議程 5: 演講二 (更新為 15:30 - 16:00) -->
+        <div class="bg-white rounded-2xl p-3.5 border-l-4 border-l-poster-cyan border-poster-border shadow-sm">
+          <div class="flex items-center justify-between text-xs mb-1">
+            <span class="font-black text-poster-indigo">15:30 - 16:00</span>
+            <span class="bg-poster-cyanLight text-poster-cyan px-2 py-0.5 rounded-full text-[10px] font-black">專題演講 02</span>
+          </div>
+          <h4 class="font-black text-sm text-poster-indigo">AI 時代的隱形工傷：從職場創傷、倦怠到重返工作的文化之路</h4>
+          <p class="text-xs text-slate-700 mt-1">主講：古健榮 博士（馬來西亞心理學會 註冊工業與組織心理學家）</p>
+        </div>
+
+        <!-- 議程 6: 演講三 (更新為 16:00 - 16:30) -->
+        <div class="bg-white rounded-2xl p-3.5 border-l-4 border-l-poster-yellow border-poster-border shadow-sm">
+          <div class="flex items-center justify-between text-xs mb-1">
+            <span class="font-black text-poster-indigo">16:00 - 16:30</span>
+            <span class="bg-poster-yellowLight text-amber-800 px-2 py-0.5 rounded-full text-[10px] font-black">專題演講 03</span>
+          </div>
+          <h4 class="font-black text-sm text-poster-indigo">除了職能，AI還搶走了甚麼？</h4>
+          <p class="text-xs text-slate-700 mt-1">主講：黃仲遠 先生（香港註冊組織心理學家）</p>
+        </div>
+
+        <!-- 議程 7: 交流互動 (16:30 - 17:00) -->
+        <div class="bg-white rounded-2xl p-3.5 border-l-4 border-l-emerald-500 border-poster-border shadow-sm bg-gradient-to-r from-emerald-50/30 to-white">
+          <div class="flex items-center justify-between text-xs mb-1">
+            <span class="font-black text-emerald-800">16:30 - 17:00</span>
+            <span class="bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-full text-[10px] font-black">綜合交流</span>
+          </div>
+          <h4 class="font-black text-sm text-poster-indigo">交流與現場研討互動</h4>
+          <p class="text-xs text-slate-700 mt-1">講者與參會嘉賓現場問答、綜合交流及合影總結</p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- 抽屜 2-A: 羅躍嘉 教授 專屬介紹抽屜 (位置微幅上移) -->
+  <div id="sheet-speaker-luo" class="sheet-modal fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center p-3 sm:p-4 transition-all">
+    <div class="bg-[#FAF9F6] w-full max-w-md rounded-3xl max-h-[88vh] flex flex-col shadow-2xl border border-poster-border overflow-hidden my-auto -translate-y-2 sm:-translate-y-3 anim-modal-scale">
+      <div class="px-5 pt-3.5 pb-3 bg-white/95 border-b border-poster-border flex items-center justify-between sticky top-0 z-10">
+        <div>
+          <span class="text-[10px] font-black uppercase tracking-wider text-poster-pink">Keynote Speaker 01</span>
+          <h3 class="text-base font-black text-poster-indigo flex items-center gap-1.5">
+            <i class="fa-solid fa-chalkboard-user text-poster-pink"></i> 羅躍嘉 教授 介紹
+          </h3>
+        </div>
+        <button onclick="closeSheet('sheet-speaker-luo')" class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-600 hover:bg-slate-200 active:scale-95 transition" aria-label="關閉">
+          <i class="fa-solid fa-xmark text-sm"></i>
+        </button>
+      </div>
+
+      <div class="p-5 overflow-y-auto space-y-4 no-scrollbar flex-1 pb-6 text-xs">
+        <div class="bg-white rounded-2xl p-4 border border-poster-border shadow-sm space-y-3.5">
+          <!-- 放大講者照片與重點資訊排版 -->
+          <div class="flex items-center space-x-4">
+            <div class="w-28 h-28 rounded-2xl overflow-hidden bg-slate-100 border-2 border-poster-indigo/30 shadow-md shrink-0">
+              <img src="https://staff.bnbu.edu.cn/attachment/images/2026/09/24/image_1790236965_E00D0kde.jpeg" alt="羅躍嘉 教授" class="w-full h-full object-cover object-top" onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'w-full h-full bg-gradient-to-br from-poster-indigo to-purple-800 flex items-center justify-center text-white font-black text-2xl\'>羅</div>';">
+            </div>
+            <div class="min-w-0 flex-1">
+              <span class="text-[10px] font-black text-poster-pink bg-pink-50 border border-pink-100 px-2 py-0.5 rounded-full uppercase inline-block mb-1">專題演講 01</span>
+              <h4 class="text-lg font-black text-poster-indigo leading-tight">羅躍嘉 教授</h4>
+              <p class="text-xs font-bold text-poster-textMuted mt-1">中國心理學會 理事長</p>
+            </div>
+          </div>
+
+          <div class="bg-poster-pinkLight/60 p-3 rounded-xl border border-poster-pink/30 space-y-1">
+            <div class="flex items-center justify-between">
+              <span class="font-black text-poster-pink text-[11px]">專題演講題目</span>
+              <span class="text-[10px] font-bold text-slate-500 bg-white px-1.5 py-0.5 rounded border border-pink-100">15:00 - 15:30</span>
+            </div>
+            <p class="font-extrabold text-poster-indigo text-xs leading-snug">
+              ● AI時代下中國心理學科的發展與人才培養
+            </p>
+          </div>
+
+          <div class="space-y-2 text-slate-700 leading-relaxed">
+            <p class="font-bold text-poster-indigo flex items-center gap-1.5">
+              <i class="fa-solid fa-id-badge text-poster-pink"></i> 專業經歷與榮銜：
+            </p>
+            <ul class="space-y-1.5 pl-2 text-[11px]">
+              <li class="flex items-start gap-1.5">
+                <span class="text-poster-pink font-bold">•</span>
+                <span><strong>中國心理學會現任理事長</strong></span>
+              </li>
+              <li class="flex items-start gap-1.5">
+                <span class="text-poster-pink font-bold">•</span>
+                <span>北京師範大學 / 康復大學 / 華南師範大學 心理學系教授</span>
+              </li>
+              <li class="flex items-start gap-1.5">
+                <span class="text-poster-pink font-bold">•</span>
+                <span>新世紀百千萬人才工程國家級人選</span>
+              </li>
+              <li class="flex items-start gap-1.5">
+                <span class="text-poster-pink font-bold">•</span>
+                <span>國家傑出青年科學基金獲獎者</span>
+              </li>
+              <li class="flex items-start gap-1.5">
+                <span class="text-poster-pink font-bold">•</span>
+                <span>中國科學院「百人計劃」入選者</span>
+              </li>
+              <li class="flex items-start gap-1.5">
+                <span class="text-poster-pink font-bold">•</span>
+                <span>從事情緒與認知的心理生理學研究，於國際頂級學術期刊發表論文逾 300 篇</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 抽屜 2-B: 古健榮 博士 專屬介紹抽屜 (位置微幅上移) -->
+  <div id="sheet-speaker-gu" class="sheet-modal fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center p-3 sm:p-4 transition-all">
+    <div class="bg-[#FAF9F6] w-full max-w-md rounded-3xl max-h-[88vh] flex flex-col shadow-2xl border border-poster-border overflow-hidden my-auto -translate-y-2 sm:-translate-y-3 anim-modal-scale">
+      <div class="px-5 pt-3.5 pb-3 bg-white/95 border-b border-poster-border flex items-center justify-between sticky top-0 z-10">
+        <div>
+          <span class="text-[10px] font-black uppercase tracking-wider text-poster-cyan">Keynote Speaker 02</span>
+          <h3 class="text-base font-black text-poster-indigo flex items-center gap-1.5">
+            <i class="fa-solid fa-chalkboard-user text-poster-cyan"></i> 古健榮 博士 介紹
+          </h3>
+        </div>
+        <button onclick="closeSheet('sheet-speaker-gu')" class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-600 hover:bg-slate-200 active:scale-95 transition" aria-label="關閉">
+          <i class="fa-solid fa-xmark text-sm"></i>
+        </button>
+      </div>
+
+      <div class="p-5 overflow-y-auto space-y-4 no-scrollbar flex-1 pb-6 text-xs">
+        <div class="bg-white rounded-2xl p-4 border border-poster-border shadow-sm space-y-3.5">
+          <!-- 放大講者照片與重點資訊排版 -->
+          <div class="flex items-center space-x-4">
+            <div class="w-28 h-28 rounded-2xl overflow-hidden bg-slate-100 border-2 border-poster-cyan/40 shadow-md shrink-0">
+              <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ2e5lWWvK605nv_rO74puOkxGy6l7WZmZUMF2sAdqeb23W8khn" alt="古健榮 博士" class="w-full h-full object-cover object-top" onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'w-full h-full bg-gradient-to-br from-poster-cyan to-teal-700 flex items-center justify-center text-white font-black text-2xl\'>古</div>';">
+            </div>
+            <div class="min-w-0 flex-1">
+              <span class="text-[10px] font-black text-poster-cyan bg-cyan-50 border border-cyan-100 px-2 py-0.5 rounded-full uppercase inline-block mb-1">專題演講 02</span>
+              <h4 class="text-lg font-black text-poster-indigo leading-tight">古健榮 博士</h4>
+              <p class="text-xs font-bold text-poster-textMuted mt-1">馬來西亞心理學會 註冊工業與組織心理學家</p>
+            </div>
+          </div>
+
+          <div class="bg-poster-cyanLight/60 p-3 rounded-xl border border-poster-cyan/30 space-y-1">
+            <div class="flex items-center justify-between">
+              <span class="font-black text-poster-cyan text-[11px]">專題演講題目</span>
+              <span class="text-[10px] font-bold text-slate-500 bg-white px-1.5 py-0.5 rounded border border-cyan-100">15:30 - 16:00</span>
+            </div>
+            <p class="font-extrabold text-poster-indigo text-xs leading-snug">
+              ● AI 時代的隱形工傷：從職場創傷、倦怠到重返工作的文化之路
+            </p>
+          </div>
+
+          <div class="space-y-2 text-slate-700 leading-relaxed">
+            <p class="font-bold text-poster-indigo flex items-center gap-1.5">
+              <i class="fa-solid fa-id-badge text-poster-cyan"></i> 專業經歷與資歷：
+            </p>
+            <ul class="space-y-1.5 pl-2 text-[11px]">
+              <li class="flex items-start gap-1.5">
+                <span class="text-poster-cyan font-bold">•</span>
+                <span><strong>馬來西亞註冊工業與組織心理學家</strong></span>
+              </li>
+              <li class="flex items-start gap-1.5">
+                <span class="text-poster-cyan font-bold">•</span>
+                <span>馬來西亞職業安全與健康部 (DOSH) 註冊心理社會培訓人員</span>
+              </li>
+              <li class="flex items-start gap-1.5">
+                <span class="text-poster-cyan font-bold">•</span>
+                <span>馬來西亞人力資源發展基金 (HRD Corp) 認證培訓師</span>
+              </li>
+              <li class="flex items-start gap-1.5">
+                <span class="text-poster-cyan font-bold">•</span>
+                <span>超過 15 年跨企業、醫療與政府部門經驗，專注員工投入、倦怠預防與領導力發展</span>
+              </li>
+              <li class="flex items-start gap-1.5">
+                <span class="text-poster-cyan font-bold">•</span>
+                <span>專業特色為結合<strong>職業健康心理學</strong>與<strong>應用神經科學</strong></span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 抽屜 2-C: 黃仲遠 先生 專屬介紹抽屜 (位置微幅上移) -->
+  <div id="sheet-speaker-huang" class="sheet-modal fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center p-3 sm:p-4 transition-all">
+    <div class="bg-[#FAF9F6] w-full max-w-md rounded-3xl max-h-[88vh] flex flex-col shadow-2xl border border-poster-border overflow-hidden my-auto -translate-y-2 sm:-translate-y-3 anim-modal-scale">
+      <div class="px-5 pt-3.5 pb-3 bg-white/95 border-b border-poster-border flex items-center justify-between sticky top-0 z-10">
+        <div>
+          <span class="text-[10px] font-black uppercase tracking-wider text-amber-700">Keynote Speaker 03</span>
+          <h3 class="text-base font-black text-poster-indigo flex items-center gap-1.5">
+            <i class="fa-solid fa-chalkboard-user text-amber-600"></i> 黃仲遠 先生 介紹
+          </h3>
+        </div>
+        <button onclick="closeSheet('sheet-speaker-huang')" class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-600 hover:bg-slate-200 active:scale-95 transition" aria-label="關閉">
+          <i class="fa-solid fa-xmark text-sm"></i>
+        </button>
+      </div>
+
+      <div class="p-5 overflow-y-auto space-y-4 no-scrollbar flex-1 pb-6 text-xs">
+        <div class="bg-white rounded-2xl p-4 border border-poster-border shadow-sm space-y-3.5">
+          <!-- 放大講者照片與重點資訊排版 -->
+          <div class="flex items-center space-x-4">
+            <div class="w-28 h-28 rounded-2xl overflow-hidden bg-slate-100 border-2 border-amber-300 shadow-md shrink-0">
+              <img src="https://www.rock-training.com/wp-content/uploads/2019/01/f70483b9-bf00-4d95-9af6-b54a00130c39.jpg" alt="黃仲遠 先生" class="w-full h-full object-cover object-top" onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'w-full h-full bg-gradient-to-br from-poster-yellow to-amber-700 flex items-center justify-center text-white font-black text-2xl\'>黃</div>';">
+            </div>
+            <div class="min-w-0 flex-1">
+              <span class="text-[10px] font-black text-amber-700 bg-amber-50 border border-amber-100 px-2 py-0.5 rounded-full uppercase inline-block mb-1">專題演講 03</span>
+              <h4 class="text-lg font-black text-poster-indigo leading-tight">黃仲遠 先生</h4>
+              <p class="text-xs font-bold text-poster-textMuted mt-1">香港註冊組織心理學家</p>
+            </div>
+          </div>
+
+          <div class="bg-poster-yellowLight p-3 rounded-xl border border-poster-yellow/40 space-y-1">
+            <div class="flex items-center justify-between">
+              <span class="font-black text-amber-800 text-[11px]">專題演講題目</span>
+              <span class="text-[10px] font-bold text-slate-500 bg-white px-1.5 py-0.5 rounded border border-amber-100">16:00 - 16:30</span>
+            </div>
+            <p class="font-extrabold text-poster-indigo text-xs leading-snug">
+              ● 除了職能，AI還搶走了甚麼？
+            </p>
+          </div>
+
+          <div class="space-y-2 text-slate-700 leading-relaxed">
+            <p class="font-bold text-poster-indigo flex items-center gap-1.5">
+              <i class="fa-solid fa-id-badge text-poster-yellow"></i> 專業經歷與媒體主持：
+            </p>
+            <ul class="space-y-1.5 pl-2 text-[11px]">
+              <li class="flex items-start gap-1.5">
+                <span class="text-amber-500 font-bold">•</span>
+                <span><strong>香港註冊組織心理學家</strong></span>
+              </li>
+              <li class="flex items-start gap-1.5">
+                <span class="text-amber-500 font-bold">•</span>
+                <span>曾於財富 100 強跨國企業擔任人才發展區域主管</span>
+              </li>
+              <li class="flex items-start gap-1.5">
+                <span class="text-amber-500 font-bold">•</span>
+                <span>現任 ViuTV《邊個瞓梳化》嘉賓</span>
+              </li>
+              <li class="flex items-start gap-1.5">
+                <span class="text-amber-500 font-bold">•</span>
+                <span>香港電台電視《非凡人物》主持</span>
+              </li>
+              <li class="flex items-start gap-1.5">
+                <span class="text-amber-500 font-bold">•</span>
+                <span>YouTube 頻道 Mill MILK《Pantry有嘢斟》節目嘉賓</span>
+              </li>
+              <li class="flex items-start gap-1.5">
+                <span class="text-amber-500 font-bold">•</span>
+                <span>香港電台節目《捉心理》、《講東講西》主持</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 抽屜 3: 第十四屆理監事就職名單 (Council Sheet - 防折行排版優化) -->
+  <div id="sheet-council" class="sheet-modal fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center p-3 sm:p-4 transition-all">
+    <div class="bg-[#FAF9F6] w-full max-w-md rounded-3xl max-h-[86vh] flex flex-col shadow-2xl border border-poster-border overflow-hidden my-auto -translate-y-2 sm:-translate-y-3 anim-modal-scale">
+      <div class="px-5 pt-3.5 pb-3 bg-white/95 border-b border-poster-border flex items-center justify-between sticky top-0 z-10">
+        <div>
+          <span class="text-[10px] font-black uppercase tracking-wider text-poster-indigo">Governance 2026-2028</span>
+          <h3 class="text-base font-black text-poster-indigo flex items-center gap-1.5">
+            <i class="fa-solid fa-award text-poster-pink"></i> 第十四屆理監事成員及顧問名單
+          </h3>
+        </div>
+        <button onclick="closeSheet('sheet-council')" class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-600 hover:bg-slate-200 active:scale-95 transition" aria-label="關閉">
+          <i class="fa-solid fa-xmark text-sm"></i>
+        </button>
+      </div>
+
+      <div class="p-5 overflow-y-auto space-y-4 no-scrollbar flex-1 pb-10 text-xs">
+        
+        <!-- 會員大會 -->
+        <div class="bg-white rounded-2xl p-3.5 border border-poster-border shadow-sm">
+          <div class="flex items-center justify-between mb-2.5">
+            <span class="font-black text-poster-indigo bg-purple-100 px-2.5 py-0.5 rounded-md text-[11px] border border-purple-200">
+              會員大會
+            </span>
+            <span class="text-[10px] text-slate-400 font-bold">General Assembly</span>
+          </div>
+          <div class="space-y-2">
+            <!-- 主席核心卡片 -->
+            <div class="p-2.5 rounded-xl bg-purple-50/70 border border-purple-100 flex items-center gap-3">
+              <span class="text-[10px] font-black text-poster-indigo bg-white px-2 py-0.5 rounded-md border border-purple-200/80 shrink-0">
+                會員大會主席
+              </span>
+              <span class="font-black text-poster-indigo text-xs sm:text-sm whitespace-nowrap">李昇恆</span>
+            </div>
+            <!-- 秘書兩人並排 (加入 whitespace-nowrap 防折行) -->
+            <div class="grid grid-cols-2 gap-2">
+              <div class="p-2 rounded-xl bg-[#FAF9F6] border border-poster-border flex items-center gap-2">
+                <span class="text-[10px] font-bold text-poster-textMuted bg-slate-200/60 px-1.5 py-0.5 rounded shrink-0">秘書</span>
+                <span class="font-black text-poster-indigo text-xs whitespace-nowrap">董耀豪</span>
+              </div>
+              <div class="p-2 rounded-xl bg-[#FAF9F6] border border-poster-border flex items-center gap-2">
+                <span class="text-[10px] font-bold text-poster-textMuted bg-slate-200/60 px-1.5 py-0.5 rounded shrink-0">秘書</span>
+                <span class="font-black text-poster-indigo text-xs whitespace-nowrap">朱柏鋒</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 理事會 (理事長與副理事長垂直整列，徹底解決小螢幕折行問題) -->
+        <div class="bg-white rounded-2xl p-3.5 border border-poster-border shadow-sm">
+          <div class="flex items-center justify-between mb-2.5">
+            <span class="font-black text-teal-800 bg-poster-cyanLight px-2.5 py-0.5 rounded-md text-[11px] border border-poster-cyan/30">
+              理事會
+            </span>
+            <span class="text-[10px] text-slate-400 font-bold">Board of Directors</span>
+          </div>
+          <div class="space-y-2">
+            <div class="space-y-1.5">
+              <div class="p-2 rounded-xl bg-teal-50/70 border border-teal-100 flex items-center gap-2.5">
+                <span class="text-[10px] font-black text-teal-900 bg-white px-2 py-0.5 rounded border border-teal-200 shrink-0">理事長</span>
+                <span class="font-black text-teal-950 text-xs sm:text-sm whitespace-nowrap">鄭健廷</span>
+              </div>
+              <div class="p-2 rounded-xl bg-teal-50/70 border border-teal-100 flex items-center gap-2.5">
+                <span class="text-[10px] font-black text-teal-900 bg-white px-2 py-0.5 rounded border border-teal-200 shrink-0">副理事長</span>
+                <span class="font-black text-teal-950 text-xs sm:text-sm whitespace-nowrap">張嘉兒</span>
+              </div>
+            </div>
+            
+            <div class="pt-0.5">
+              <span class="text-[10px] font-bold text-poster-textMuted block mb-1.5">理事成員 (Directors)</span>
+              <div class="grid grid-cols-3 gap-1.5 text-center">
+                <div class="p-1.5 bg-[#FAF9F6] rounded-lg border border-poster-border font-bold text-poster-indigo text-xs whitespace-nowrap">梁華溢</div>
+                <div class="p-1.5 bg-[#FAF9F6] rounded-lg border border-poster-border font-bold text-poster-indigo text-xs whitespace-nowrap">許天益</div>
+                <div class="p-1.5 bg-[#FAF9F6] rounded-lg border border-poster-border font-bold text-poster-indigo text-xs whitespace-nowrap">林曉忻</div>
+                <div class="p-1.5 bg-[#FAF9F6] rounded-lg border border-poster-border font-bold text-poster-indigo text-xs whitespace-nowrap">何淑賢</div>
+                <div class="p-1.5 bg-[#FAF9F6] rounded-lg border border-poster-border font-bold text-poster-indigo text-xs whitespace-nowrap">張啓希</div>
+                <div class="p-1.5 bg-[#FAF9F6] rounded-lg border border-poster-border font-bold text-poster-indigo text-xs whitespace-nowrap">陳恩愉</div>
+              </div>
+            </div>
+
+            <!-- 財政：緊湊標籤樣式 -->
+            <div class="p-2 rounded-xl bg-[#FAF9F6] border border-poster-border flex items-center gap-2.5">
+              <span class="text-[10px] font-black text-poster-indigo bg-white px-2 py-0.5 rounded border border-slate-200 shrink-0">財政</span>
+              <span class="font-black text-poster-indigo text-xs whitespace-nowrap">廖小麗</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 監事會 (監事長與副監事長垂直整列，徹底解決小螢幕折行問題) -->
+        <div class="bg-white rounded-2xl p-3.5 border border-poster-border shadow-sm">
+          <div class="flex items-center justify-between mb-2.5">
+            <span class="font-black text-poster-pink bg-poster-pinkLight px-2.5 py-0.5 rounded-md text-[11px] border border-poster-pink/30">
+              監事會
+            </span>
+            <span class="text-[10px] text-slate-400 font-bold">Supervisory Board</span>
+          </div>
+          <div class="space-y-2">
+            <div class="space-y-1.5">
+              <div class="p-2 rounded-xl bg-pink-50/60 border border-pink-100 flex items-center gap-2.5">
+                <span class="text-[10px] font-black text-pink-900 bg-white px-2 py-0.5 rounded border border-pink-200 shrink-0">監事長</span>
+                <span class="font-black text-pink-950 text-xs sm:text-sm whitespace-nowrap">陳思恆</span>
+              </div>
+              <div class="p-2 rounded-xl bg-pink-50/60 border border-pink-100 flex items-center gap-2.5">
+                <span class="text-[10px] font-black text-pink-900 bg-white px-2 py-0.5 rounded border border-pink-200 shrink-0">副監事長</span>
+                <span class="font-black text-pink-950 text-xs sm:text-sm whitespace-nowrap">蘇桂龍</span>
+              </div>
+            </div>
+            <!-- 監事委員 -->
+            <div class="p-2 rounded-xl bg-[#FAF9F6] border border-poster-border flex items-center gap-2.5">
+              <span class="text-[10px] font-bold text-poster-textMuted bg-slate-200/60 px-2 py-0.5 rounded shrink-0">監事委員</span>
+              <span class="font-black text-poster-indigo text-xs whitespace-nowrap">程美珍</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 顧問 -->
+        <div class="bg-white rounded-2xl p-3.5 border border-poster-border shadow-sm">
+          <div class="flex items-center justify-between mb-2.5">
+            <span class="font-black text-amber-900 bg-poster-yellowLight px-2.5 py-0.5 rounded-md text-[11px] border border-poster-yellow/40">
+              顧問
+            </span>
+            <span class="text-[10px] text-slate-400 font-bold">Advisors</span>
+          </div>
+          <div class="space-y-2">
+            <div class="p-2 rounded-xl bg-[#FAF9F6] border border-poster-border flex items-center gap-2.5">
+              <span class="text-[10px] font-bold text-amber-900 bg-amber-100/70 px-2 py-0.5 rounded shrink-0">法律顧問</span>
+              <span class="font-black text-poster-indigo text-xs whitespace-nowrap">華年達大律師</span>
+            </div>
+            <div class="p-2 rounded-xl bg-[#FAF9F6] border border-poster-border flex items-center gap-2.5">
+              <span class="text-[10px] font-bold text-amber-900 bg-amber-100/70 px-2 py-0.5 rounded shrink-0">危機干預顧問</span>
+              <span class="font-black text-poster-indigo text-xs whitespace-nowrap">劉家祖臨床心理學家</span>
+            </div>
+            <div class="p-2 rounded-xl bg-[#FAF9F6] border border-poster-border flex items-center gap-2.5">
+              <span class="text-[10px] font-bold text-amber-900 bg-amber-100/70 px-2 py-0.5 rounded shrink-0">督導專項顧問</span>
+              <span class="font-black text-poster-indigo text-xs whitespace-nowrap">王覓博士</span>
+            </div>
+            <div class="p-2.5 rounded-xl bg-[#FAF9F6] border border-poster-border space-y-1.5">
+              <span class="text-[10px] font-bold text-poster-textMuted block">會務顧問</span>
+              <div class="grid grid-cols-3 gap-1.5 text-center font-bold text-poster-indigo text-xs">
+                <span class="p-1 bg-white rounded border border-slate-200 whitespace-nowrap">曾慶彬先生</span>
+                <span class="p-1 bg-white rounded border border-slate-200 whitespace-nowrap">胡潔如女士</span>
+                <span class="p-1 bg-white rounded border border-slate-200 whitespace-nowrap">陳詠芝女士</span>
+              </div>
+            </div>
+            <div class="p-2 rounded-xl bg-[#FAF9F6] border border-poster-border flex items-center gap-2.5">
+              <span class="text-[10px] font-bold text-amber-900 bg-amber-100/70 px-2 py-0.5 rounded shrink-0">顧問</span>
+              <span class="font-black text-poster-indigo text-xs whitespace-nowrap">飛迪華女士</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- 抽屜 5: 加入學會 (Join Sheet - 位置微幅上移) -->
+  <div id="sheet-join" class="sheet-modal fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center p-3 sm:p-4 transition-all">
+    <div class="bg-[#FAF9F6] w-full max-w-md rounded-3xl max-h-[86vh] flex flex-col shadow-2xl border border-poster-border overflow-hidden my-auto -translate-y-2 sm:-translate-y-3 anim-modal-scale">
+      <div class="px-5 pt-3.5 pb-3 bg-white/95 border-b border-poster-border flex items-center justify-between sticky top-0 z-10">
+        <div>
+          <span class="text-[10px] font-black uppercase tracking-wider text-poster-pink">Membership Categories</span>
+          <h3 class="text-base font-black text-poster-indigo flex items-center gap-1.5">
+            <i class="fa-solid fa-id-card text-poster-pink"></i> 了解加入學會程序與資格
+          </h3>
+        </div>
+        <button onclick="closeSheet('sheet-join')" class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-600 hover:bg-slate-200 active:scale-95 transition" aria-label="關閉">
+          <i class="fa-solid fa-xmark text-sm"></i>
+        </button>
+      </div>
+
+      <!-- 分頁切換鈕：會員 / 學生會員 / 心理學會之友 -->
+      <div class="px-4 pt-2.5 pb-1 bg-white border-b border-poster-border/70 flex items-center gap-1.5">
+        <button id="tab-btn-member" onclick="switchMemberTab('member')" class="flex-1 py-1.5 px-2 rounded-xl text-[11px] font-black bg-poster-indigo text-white shadow-xs transition active:scale-95 flex items-center justify-center gap-1">
+          <i class="fa-solid fa-users text-[10px]"></i> 會員
+        </button>
+        <button id="tab-btn-student" onclick="switchMemberTab('student')" class="flex-1 py-1.5 px-2 rounded-xl text-[11px] font-black bg-slate-100 text-slate-600 hover:bg-slate-200 transition active:scale-95 flex items-center justify-center gap-1">
+          <i class="fa-solid fa-graduation-cap text-[10px]"></i> 學生會員
+        </button>
+        <button id="tab-btn-friend" onclick="switchMemberTab('friend')" class="flex-1 py-1.5 px-2 rounded-xl text-[11px] font-black bg-slate-100 text-slate-600 hover:bg-slate-200 transition active:scale-95 flex items-center justify-center gap-1">
+          <i class="fa-solid fa-hand-holding-heart text-[10px]"></i> 學會之友
+        </button>
+      </div>
+
+      <div class="p-4 overflow-y-auto space-y-3.5 no-scrollbar flex-1 pb-10 text-xs">
+
+        <!-- TAB 1: 正式會員 -->
+        <div id="tab-pane-member" class="space-y-3 tab-content-enter">
+          <div class="bg-gradient-to-r from-poster-indigo to-poster-indigoDark text-white p-3 rounded-2xl flex items-center justify-between shadow-xs">
+            <div>
+              <span class="text-[9px] font-bold text-purple-200 uppercase">Regular Member</span>
+              <h4 class="text-sm font-black text-white">會員 — 入會申請</h4>
+            </div>
+            <span class="px-2 py-0.5 rounded-full bg-white/20 text-[10px] font-bold">正式會員</span>
+          </div>
+
+          <div class="bg-white rounded-2xl p-3.5 border border-poster-border space-y-2 shadow-xs">
+            <h5 class="font-black text-poster-indigo flex items-center gap-1.5 text-xs">
+              <i class="fa-solid fa-certificate text-poster-pink"></i> 資格要求
+            </h5>
+            <p class="text-[11px] text-slate-700 leading-relaxed pl-1">
+              擁有<strong>心理學學士學位</strong>之人士。若專業名稱無心理學字樣，須由理事會另行審批。
+            </p>
+          </div>
+
+          <div class="bg-white rounded-2xl p-3.5 border border-poster-border space-y-2 shadow-xs">
+            <h5 class="font-black text-poster-indigo flex items-center gap-1.5 text-xs">
+              <i class="fa-regular fa-file-lines text-poster-cyan"></i> 所需繳交文件
+            </h5>
+            <ol class="list-decimal list-inside space-y-1 text-[11px] text-slate-700 pl-1">
+              <li>入會申請表</li>
+              <li>居民身份證副本</li>
+              <li>畢業證書副本</li>
+              <li>成績表副本</li>
+            </ol>
+          </div>
+
+          <div class="bg-white rounded-2xl p-3.5 border border-poster-border space-y-2 shadow-xs">
+            <h5 class="font-black text-poster-indigo flex items-center gap-1.5 text-xs">
+              <i class="fa-solid fa-list-check text-poster-yellow"></i> 入會程序
+            </h5>
+            <ol class="list-decimal list-inside space-y-1.5 text-[11px] text-slate-700 pl-1 leading-relaxed">
+              <li>列印並填寫入會申請表。</li>
+              <li>將申請表及相關資料（畢業證書、成績表及身份證副本）掃描或拍照後電郵至 <span class="font-bold text-poster-indigo">membership@apm.org.mo</span>。</li>
+              <li>收到確認申請電郵通知，經審核後按通知完成後續手續。</li>
+              <li>收到確認通知，正式成為會員。</li>
+            </ol>
+          </div>
+
+          <div class="bg-purple-50/60 rounded-xl p-2.5 border border-purple-100 flex items-center justify-between text-[11px]">
+            <span class="text-slate-600 font-bold">權利：</span>
+            <span class="font-bold text-poster-indigo">擁有澳門心理學會會章所描述之權利</span>
+          </div>
+        </div>
+
+        <!-- TAB 2: 學生會員 -->
+        <div id="tab-pane-student" class="hidden space-y-3">
+          <div class="bg-gradient-to-r from-poster-cyan to-teal-700 text-white p-3 rounded-2xl flex items-center justify-between shadow-xs">
+            <div>
+              <span class="text-[9px] font-bold text-cyan-100 uppercase">Student Member</span>
+              <h4 class="text-sm font-black text-white">學生會員 — 入會申請</h4>
+            </div>
+            <span class="px-2 py-0.5 rounded-full bg-white/20 text-[10px] font-bold">學生身份</span>
+          </div>
+
+          <div class="bg-white rounded-2xl p-3.5 border border-poster-border space-y-2 shadow-xs">
+            <h5 class="font-black text-poster-indigo flex items-center gap-1.5 text-xs">
+              <i class="fa-solid fa-graduation-cap text-poster-cyan"></i> 資格要求
+            </h5>
+            <p class="text-[11px] text-slate-700 leading-relaxed pl-1">
+              現正攻讀<strong>心理學本科課程</strong>之學生。
+            </p>
+          </div>
+
+          <div class="bg-white rounded-2xl p-3.5 border border-poster-border space-y-2 shadow-xs">
+            <h5 class="font-black text-poster-indigo flex items-center gap-1.5 text-xs">
+              <i class="fa-regular fa-file-lines text-poster-cyan"></i> 所需繳交文件
+            </h5>
+            <ol class="list-decimal list-inside space-y-1 text-[11px] text-slate-700 pl-1">
+              <li>入會申請表</li>
+              <li>在學證明</li>
+            </ol>
+          </div>
+
+          <div class="bg-white rounded-2xl p-3.5 border border-poster-border space-y-2 shadow-xs">
+            <h5 class="font-black text-poster-indigo flex items-center gap-1.5 text-xs">
+              <i class="fa-solid fa-list-check text-poster-yellow"></i> 入會程序與續期
+            </h5>
+            <ol class="list-decimal list-inside space-y-1.5 text-[11px] text-slate-700 pl-1 leading-relaxed">
+              <li>列印並填寫入會申請表。</li>
+              <li>將申請表及在學證明，掃描或拍照後電郵至 <span class="font-bold text-poster-indigo">membership@apm.org.mo</span>。</li>
+              <li>申請資料經審核後，申請者將收到確認通知，正式成為學生會員。</li>
+              <li>學生會員需每年年底前提交在學證明，以續翌年的學生會員資格。</li>
+            </ol>
+          </div>
+
+          <div class="bg-amber-50/70 rounded-xl p-2.5 border border-amber-100 text-[11px] text-amber-900 leading-relaxed">
+            <strong>續期須知：</strong> 學會會員需於每年12月底前向本會提交新學年註冊之資訊，以續任新一年的學生會員身份。倘學生已畢業，可向本會申請成為會員，以享會員之權利。
+          </div>
+
+          <div class="bg-slate-100/70 rounded-xl p-2.5 border border-slate-200 flex items-center justify-between text-[11px]">
+            <span class="text-slate-600 font-bold">權利：</span>
+            <span class="font-bold text-slate-700">可參加本會相關活動但不具會章所描述之權利</span>
+          </div>
+        </div>
+
+        <!-- TAB 3: 心理學會之友 -->
+        <div id="tab-pane-friend" class="hidden space-y-3">
+          <div class="bg-gradient-to-r from-amber-500 to-poster-yellow text-white p-3 rounded-2xl flex items-center justify-between shadow-xs">
+            <div>
+              <span class="text-[9px] font-bold text-amber-100 uppercase">Friend of APM</span>
+              <h4 class="text-sm font-black text-white">心理學會之友 — 入會申請</h4>
+            </div>
+            <span class="px-2 py-0.5 rounded-full bg-white/20 text-[10px] font-bold">友會交流</span>
+          </div>
+
+          <div class="bg-white rounded-2xl p-3.5 border border-poster-border space-y-2 shadow-xs">
+            <h5 class="font-black text-poster-indigo flex items-center gap-1.5 text-xs">
+              <i class="fa-solid fa-heart text-poster-pink"></i> 資格要求
+            </h5>
+            <p class="text-[11px] text-slate-700 leading-relaxed pl-1">
+              對<strong>心理學有興趣</strong>之人士。
+            </p>
+          </div>
+
+          <div class="bg-white rounded-2xl p-3.5 border border-poster-border space-y-2 shadow-xs">
+            <h5 class="font-black text-poster-indigo flex items-center gap-1.5 text-xs">
+              <i class="fa-regular fa-file-lines text-amber-600"></i> 所需繳交文件
+            </h5>
+            <p class="text-[11px] text-slate-700 pl-1">
+              入會申請表
+            </p>
+          </div>
+
+          <div class="bg-white rounded-2xl p-3.5 border border-poster-border space-y-2 shadow-xs">
+            <h5 class="font-black text-poster-indigo flex items-center gap-1.5 text-xs">
+              <i class="fa-solid fa-list-check text-poster-yellow"></i> 入會程序
+            </h5>
+            <ol class="list-decimal list-inside space-y-1.5 text-[11px] text-slate-700 pl-1 leading-relaxed">
+              <li>列印並填寫入會申請表。</li>
+              <li>將申請表掃描或拍照後電郵至 <span class="font-bold text-poster-indigo">membership@apm.org.mo</span>。</li>
+              <li>申請資料經審核後，申請者將收到確認通知。</li>
+            </ol>
+          </div>
+
+          <div class="bg-slate-100/70 rounded-xl p-2.5 border border-slate-200 flex items-center justify-between text-[11px]">
+            <span class="text-slate-600 font-bold">權利：</span>
+            <span class="font-bold text-slate-700">可參加本會相關活動但不具會章所描述之權利</span>
+          </div>
+        </div>
+
+        <!-- 共同資訊區塊 -->
+        <div class="p-2.5 bg-amber-50/50 rounded-xl border border-amber-200/60 text-[10px] text-amber-900/90 space-y-1">
+          <p><strong>所需時間：</strong> 一般 2 至 3 個月完成入會手續。</p>
+          <p class="text-[9px] text-slate-500">*各類別詳細費用、繳費指引與入會申請，澳門心理學會理事會保留最終決議權。</p>
+        </div>
+
+        <div class="pt-1">
+          <button onclick="window.open('https://apm.org.mo/application_for_membership', '_blank')" class="w-full py-3 bg-poster-pink text-white font-black rounded-xl text-xs shadow-md hover:opacity-95 active:scale-98 transition flex items-center justify-center gap-1.5">
+            前往官網下載表格及查閱收費與詳情 <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- 提示訊息 Toast 浮窗 -->
+  <div id="toast" class="fixed top-14 left-1/2 -translate-x-1/2 z-50 px-4 py-2 bg-poster-indigo/95 text-white text-xs rounded-full shadow-xl backdrop-blur-md opacity-0 pointer-events-none transition-all duration-300">
+    已更新
+  </div>
+
+  <script>
+    /* ============================================================
+       繁簡中文雙向切換引擎 (Traditional <-> Simplified Chinese)
+       ============================================================ */
+    let currentLang = 'zh-Hant'; // 預設繁體中文
+
+    // 涵蓋本年會所有介面、講師、題目、理監事名冊、議程、提問與表單之專屬字表
+    const TC_STR = "們學會術屆監事職禮時代職場心理健康解方訊聯關閉詳情報簽賓領取莊嚴典席誓儀式頒授證書體影題講羅躍嘉教授國長歇壁互動鐘榮博士馬來西亞註冊工業與組織傷從創倦怠重返工作文化之路黃仲遠先生還搶走麼港紹介航系塑新訓制視角剖析驅壓環境員途徑諮詢眾科普直面對自產慮意義剝落核心價值衛顧問主席李昇恆秘書董耀豪朱柏鋒理事鄭健廷副張嘉兒梁華溢許天益林曉忻何淑賢張啓希陳恩愉財政廖小麗陳思恆蘇桂龍委員程美珍華年達大律師危機干預劉家祖臨床督導專項王覓會務曾慶彬胡潔如陳詠芝飛迪華訪客密碼號宴廳電郵提交歷類別讀認查簡繁幾圖網絡資格權益開載與實滿意評心得分享寶貴建言對未來期待讚祝收穫豐碩點選個歡迎助人問答內選匿身機構對象續提程序解須知基支持單位";
+    const SC_STR = "们学会术届监事职礼时代职场心理健康解方讯联关闭详情报签宾领取庄严典席誓仪式颁授证书体影题讲罗跃嘉教授国长歇壁互动钟荣博士马来西亚注册工业与组织伤从创倦怠重返工作文化之路黄仲远先生还抢走么港绍介航系塑新训制视角剖析驱压环境员途径咨询众科普直面对自产虑意义剥落核心价值卫顾问主席李升恒秘书董耀豪朱柏锋理事郑健廷副张嘉儿梁华溢许天益林晓忻何淑贤张启希陈恩愉财政廖小丽陈思恒苏桂龙委员程美珍华年达大律师危机干预刘家祖临床督导专项王觅会务曾庆彬胡洁如陈咏芝飞迪华访客密码号宴厅电邮提交历类别读认查简繁几图网络资格权益开载与实满意评心得分享宝贵建言对未来期待赞祝收获丰硕点选个欢迎助人问答内选匿身机构对象续提程序解须知基支持单位";
+
+    const tcToScMap = {};
+    const scToTcMap = {};
+    for (let i = 0; i < TC_STR.length; i++) {
+      tcToScMap[TC_STR[i]] = SC_STR[i];
+      scToTcMap[SC_STR[i]] = TC_STR[i];
+    }
+
+    function convertText(str, toSimplified) {
+      if (!str) return '';
+      const map = toSimplified ? tcToScMap : scToTcMap;
+      return str.split('').map(char => map[char] || char).join('');
+    }
+
+    function walkTextNodes(node, toSimplified) {
+      if (['SCRIPT', 'STYLE', 'svg', 'SVG', 'path', 'g', 'line', 'circle'].includes(node.nodeName)) {
+        return;
+      }
+      if (node.nodeType === Node.TEXT_NODE) {
+        if (node.nodeValue.trim().length > 0) {
+          node.nodeValue = convertText(node.nodeValue, toSimplified);
+        }
+      } else {
+        if (node.placeholder) {
+          node.placeholder = convertText(node.placeholder, toSimplified);
+        }
+        node.childNodes.forEach(child => walkTextNodes(child, toSimplified));
+      }
+    }
+
+    function toggleLanguage() {
+      const isSwitchingToSimp = (currentLang === 'zh-Hant');
+      currentLang = isSwitchingToSimp ? 'zh-Hans' : 'zh-Hant';
+
+      // 同步設定根節點 lang 屬性，觸發專屬 Noto Sans SC 字型規則
+      document.documentElement.lang = currentLang;
+
+      walkTextNodes(document.body, isSwitchingToSimp);
+
+      const langLabel = document.getElementById('lang-label');
+      if (langLabel) {
+        langLabel.innerText = isSwitchingToSimp ? '繁體' : '简体';
+      }
+
+      showToast(isSwitchingToSimp ? '已切換為簡體中文' : '已切換為繁體中文');
+    }
+
+    function openSheet(id) {
+      const sheet = document.getElementById(id);
+      if (!sheet) return;
+      sheet.classList.remove('hidden');
+      sheet.classList.add('flex');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeSheet(id) {
+      const sheet = document.getElementById(id);
+      if (!sheet) return;
+      sheet.classList.add('hidden');
+      sheet.classList.remove('flex');
+      document.body.style.overflow = '';
+    }
+
+    document.querySelectorAll('.sheet-modal').forEach(modal => {
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          closeSheet(modal.id);
+        }
+      });
+    });
+
+    /* 切換入會類別 Tab (會員 / 學生會員 / 學會之友) */
+    function switchMemberTab(tab) {
+      const tabs = ['member', 'student', 'friend'];
+      tabs.forEach(t => {
+        const pane = document.getElementById(`tab-pane-${t}`);
+        const btn = document.getElementById(`tab-btn-${t}`);
+        if (!pane || !btn) return;
+        if (t === tab) {
+          pane.classList.remove('hidden');
+          pane.classList.add('tab-content-enter');
+          btn.className = 'flex-1 py-1.5 px-2 rounded-xl text-[11px] font-black bg-poster-indigo text-white shadow-xs transition active:scale-95 flex items-center justify-center gap-1';
+        } else {
+          pane.classList.add('hidden');
+          pane.classList.remove('tab-content-enter');
+          btn.className = 'flex-1 py-1.5 px-2 rounded-xl text-[11px] font-black bg-slate-100 text-slate-600 hover:bg-slate-200 transition active:scale-95 flex items-center justify-center gap-1';
+        }
+      });
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      toast.innerText = msg;
+      toast.classList.remove('opacity-0', 'pointer-events-none');
+      toast.classList.add('opacity-100');
+      setTimeout(() => {
+        toast.classList.remove('opacity-100');
+        toast.classList.add('opacity-0', 'pointer-events-none');
+      }, 2500);
+    }
+  </script>
+</body>
+</html>
